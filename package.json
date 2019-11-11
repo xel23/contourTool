@@ -1,0 +1,20 @@
+{
+  "name": "contour",
+  "version": "1.0.0",
+  "description": "contour tools",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode=development --host=0.0.0.0 --devtool=eval-source-map"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "paper": "^0.12.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.8.1",
+    "html-webpack-plugin": "^3.2.0"
+  }
+}
