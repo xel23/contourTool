@@ -13,8 +13,32 @@ window.onload = function () {
     const brushButton = document.getElementById(BRUSH);
     const newButton = document.getElementById(NEW);
 
+    function setActive(elem) {
+        switch (elem) {
+            case movingButton: {
+                movingButton.setAttribute('class', 'active');
+                brushButton.removeAttribute('class');
+                newButton.removeAttribute('class');
+                break;
+            }
+            case brushButton: {
+                brushButton.setAttribute('class', 'active');
+                newButton.removeAttribute('class');
+                movingButton.removeAttribute('class');
+                break;
+            }
+            case newButton: {
+                newButton.setAttribute('class', 'active');
+                brushButton.removeAttribute('class');
+                movingButton.removeAttribute('class');
+                break;
+            }
+        }
+    }
+
 
     movingButton.onclick = () => {
+        setActive(movingButton);
         paper.tools = [];
         let tool = new paper.Tool();
         tool.minDistance = 1;
@@ -79,6 +103,7 @@ window.onload = function () {
     };
 
     brushButton.onclick = () => {
+        setActive(brushButton);
         paper.tools = [];
         let largeCircle, location, point_click, distance, arc;
 
@@ -124,6 +149,7 @@ window.onload = function () {
     };
 
     newButton.onclick = () => {
+        setActive(newButton);
         paper.tools = [];
         let tool = new paper.Tool();
         if (path) {
