@@ -3,25 +3,30 @@
 <head>
     <style>
         body {
+            text-align: center;
             padding: 0;
             margin: 0;
         }
 
         canvas {
+            display: block;
             height: 100vh;
             width: 100vw;
-            display: block;
-            border: #dd5555 1px solid;
+            border: #0033dd 2px solid;
+            background-color: #ddc9c6;
         }
         button {
-            margin: 0 50% 15px;
-            width: 100px;
+            display: inline-block;
+            margin: 15px ;
+            width: 150px;
             height: 50px;
         }
     </style>
 </head>
 <body>
-    <button id="switcher">Contour</button>
+    <button id="new">Новый контур</button>
+    <button id="moving">Изменить контур </button>
+    <button id="brush">Кисть</button>
     <canvas id="canvas" resize></canvas>
 </body>
 </html>
