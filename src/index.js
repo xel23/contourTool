@@ -1,9 +1,6 @@
 const paper = require('paper/dist/paper-full');
 
 window.onload = function () {
-
-    let tool = new paper.Tool();
-
     let canvas = document.getElementById('canvas');
     paper.setup(canvas);
     let path;
@@ -18,6 +15,8 @@ window.onload = function () {
 
 
     movingButton.onclick = () => {
+        paper.tools = [];
+        let tool = new paper.Tool();
         tool.minDistance = 1;
         tool.activate();
         path.selected = true;
@@ -80,6 +79,7 @@ window.onload = function () {
     };
 
     brushButton.onclick = () => {
+        paper.tools = [];
         let largeCircle, location, point_click, distance, arc;
 
         let tool_contour = new paper.Tool();
@@ -124,7 +124,8 @@ window.onload = function () {
     };
 
     newButton.onclick = () => {
-        paper.tools = [tool];
+        paper.tools = [];
+        let tool = new paper.Tool();
         if (path) {
             path.remove();
         }
@@ -150,6 +151,4 @@ window.onload = function () {
             path.smooth();
         };
     };
-
-    newButton.onclick();
 };
