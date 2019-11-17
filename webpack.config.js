@@ -11,7 +11,6 @@ module.exports = {
         contentBase: './dist'
     },
     plugins: [
-        // new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Output Management',
             template: './index.html'
