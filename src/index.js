@@ -165,14 +165,24 @@ window.onload = function () {
         };
 
         tool.onMouseDrag = (event) => {
+            if (path.intersects(path)) {
+                path.removeSegment(path.segments.length - 1);
+                path.closePath();
+                return;
+            }
             path.add(event.point);
         };
 
-        tool.onMouseUp = (event) => {
+        tool.onMouseUp = () => {
+            path.closePath();
+            while (path.intersects(path)) {
+                path.removeSegment(path.segments.length - 1);
+                path.closePath();
+            }
             path.strokeColor = 'black';
             path.strokeWidth = 5;
-            path.closed = true;
             path.selected = false;
+            path.fillColor = 'green';
             path.smooth();
         };
     };
