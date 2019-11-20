@@ -126,7 +126,7 @@ window.onload = function () {
         };
 
         tool_contour.onMouseDrag = (event) => {
-            if (circle === true) {
+            if (circle) {
                 largeCircle.position = event.point;
                 change_contour();
             }
