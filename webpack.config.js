@@ -8,17 +8,17 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: './dist'
+        contentBase: './'
     },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Output Management',
-            template: './index.html'
+            template: './src/index.html'
         })
     ],
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        path: path.resolve(__dirname, ''),
+        publicPath: ''
     }
 };

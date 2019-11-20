@@ -1,9 +1,6 @@
 const paper = require('paper/dist/paper-full');
 
 window.onload = function () {
-
-    let tool = new paper.Tool();
-
     let canvas = document.getElementById('canvas');
     paper.setup(canvas);
     let path;
@@ -16,8 +13,34 @@ window.onload = function () {
     const brushButton = document.getElementById(BRUSH);
     const newButton = document.getElementById(NEW);
 
+    function setActive(elem) {
+        switch (elem) {
+            case movingButton: {
+                movingButton.setAttribute('class', 'active');
+                brushButton.removeAttribute('class');
+                newButton.removeAttribute('class');
+                break;
+            }
+            case brushButton: {
+                brushButton.setAttribute('class', 'active');
+                newButton.removeAttribute('class');
+                movingButton.removeAttribute('class');
+                break;
+            }
+            case newButton: {
+                newButton.setAttribute('class', 'active');
+                brushButton.removeAttribute('class');
+                movingButton.removeAttribute('class');
+                break;
+            }
+        }
+    }
+
 
     movingButton.onclick = () => {
+        setActive(movingButton);
+        paper.tools = [];
+        let tool = new paper.Tool();
         tool.minDistance = 1;
         tool.activate();
         path.selected = true;
@@ -53,7 +76,7 @@ window.onload = function () {
                 } else if (hitResult.type === 'stroke') {
                     let location = hitResult.location;
                     segment = path.insert(location.index + 1, event.point);
-                    path.smooth();
+                    segment.smooth();
                 }
             }
             movePath = hitResult.type === 'fill';
@@ -71,7 +94,10 @@ window.onload = function () {
             if (segment) {
                 segment.point.x = segment.point.x + event.delta.x;
                 segment.point.y = segment.point.y + event.delta.y;
-                path.smooth();
+                if (path.intersects(path)) {
+                    segment.point.x -= event.delta.x;
+                    segment.point.y -= event.delta.y;
+                }
             } else if (path) {
                 path.position.x = path.position.x + event.delta.x;
                 path.position.y = path.position.y + event.delta.y;
@@ -80,6 +106,8 @@ window.onload = function () {
     };
 
     brushButton.onclick = () => {
+        setActive(brushButton);
+        paper.tools = [];
         let largeCircle, location, point_click, distance, arc;
 
         let tool_contour = new paper.Tool();
@@ -124,7 +152,9 @@ window.onload = function () {
     };
 
     newButton.onclick = () => {
-        paper.tools = [tool];
+        setActive(newButton);
+        paper.tools = [];
+        let tool = new paper.Tool();
         if (path) {
             path.remove();
         }
@@ -139,17 +169,25 @@ window.onload = function () {
         };
 
         tool.onMouseDrag = (event) => {
+            if (path.intersects(path)) {
+                path.removeSegment(path.segments.length - 1);
+                path.closePath();
+                return;
+            }
             path.add(event.point);
         };
 
-        tool.onMouseUp = (event) => {
+        tool.onMouseUp = () => {
+            path.closePath();
+            while (path.intersects(path)) {
+                path.removeSegment(path.segments.length - 1);
+                path.closePath();
+            }
             path.strokeColor = 'black';
             path.strokeWidth = 5;
-            path.closed = true;
             path.selected = false;
+            path.fillColor = 'green';
             path.smooth();
         };
     };
-
-    newButton.onclick();
 };
