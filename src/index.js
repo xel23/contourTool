@@ -76,7 +76,7 @@ window.onload = function () {
                 } else if (hitResult.type === 'stroke') {
                     let location = hitResult.location;
                     segment = path.insert(location.index + 1, event.point);
-                    path.smooth();
+                    segment.smooth();
                 }
             }
             movePath = hitResult.type === 'fill';
@@ -94,7 +94,6 @@ window.onload = function () {
             if (segment) {
                 segment.point.x = segment.point.x + event.delta.x;
                 segment.point.y = segment.point.y + event.delta.y;
-                path.smooth();
             } else if (path) {
                 path.position.x = path.position.x + event.delta.x;
                 path.position.y = path.position.y + event.delta.y;
