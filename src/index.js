@@ -108,13 +108,14 @@ window.onload = function () {
     brushButton.onclick = () => {
         setActive(brushButton);
         paper.tools = [];
-        let largeCircle, location, point_click, distance, arc;
+        let largeCircle, location, point_click, distance, arc, circle;
 
         let tool_contour = new paper.Tool();
         tool_contour.activate();
         tool_contour.minDistance = 5;
 
         tool_contour.onMouseDown = (event) => {
+            circle = true;
             location = path.contains(event.point);
             point_click = event.point;
             distance = point_click.getDistance(path.getNearestPoint(point_click)) / 2;
@@ -129,8 +130,10 @@ window.onload = function () {
         };
 
         tool_contour.onMouseDrag = (event) => {
-            largeCircle.position = event.point;
-            change_contour();
+            if (circle) {
+                largeCircle.position = event.point;
+                change_contour();
+            }
         };
 
         tool_contour.onMouseUp = () => {
@@ -145,8 +148,15 @@ window.onload = function () {
                 path = arc;
             } else if (intersections.length > 0 && location === false){
                 arc = path.subtract(largeCircle);
-                path.remove();
-                path = arc;
+                if (arc.segments !== undefined){
+                    path.remove();
+                    path = arc;
+                }
+                else {
+                    arc.remove();
+                    largeCircle.remove();
+                    circle = false;
+                }
             }
         }
     };
