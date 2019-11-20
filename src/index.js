@@ -94,6 +94,10 @@ window.onload = function () {
             if (segment) {
                 segment.point.x = segment.point.x + event.delta.x;
                 segment.point.y = segment.point.y + event.delta.y;
+                if (path.intersects(path)) {
+                    segment.point.x -= event.delta.x;
+                    segment.point.y -= event.delta.y;
+                }
             } else if (path) {
                 path.position.x = path.position.x + event.delta.x;
                 path.position.y = path.position.y + event.delta.y;
