@@ -159,7 +159,7 @@ window.onload = function () {
             path.remove();
         }
         tool.activate();
-        tool.minDistance = 40;
+        tool.minDistance = 30;
         tool.onMouseDown = (event) => {
             if (path) {
                 path.selected = false;
@@ -186,7 +186,6 @@ window.onload = function () {
             path.strokeColor = 'black';
             path.strokeWidth = 5;
             path.selected = false;
-            path.fillColor = 'green';
             path.smooth();
         };
     };
